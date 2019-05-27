@@ -2,10 +2,15 @@
   "name": "kanobu-terminal",
   "version": "1.0.0",
   "description": "KaNoBu console game",
-  "main": "index.js",
+  "main": "kanobu.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node kanobu.js"
   },
   "author": "Michael Butlitsky goodprogrammer.ru",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "yargs": "^13.2.4"
+  }
 }
