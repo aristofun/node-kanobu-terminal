@@ -1,8 +1,8 @@
 // © goodprogrammer.ru
 // Simple Nodejs terminal app demo — command line arguments support
-// 
+//
 // #: function callbacks, objects as hashmaps, readline module, parseInt, console.log,
-//    yargs module, 
+//    yargs module
 
 // terminal input reading module
 const readline = require('readline');
@@ -16,28 +16,7 @@ const rl = readline.createInterface({
 });
 
 // Main game values
-const choices = {0: 'Stone', 1: 'Scissors', 2: 'Paper'};
-
-// Comman line 'play' command with only argument
-yargs.command({
-  command: 'play <choice>',
-  describe: 'Play game with command line argument',
-
-  builder: (yargs) => {
-    yargs.positional('choice', {
-      describe: '0 — stone, 1 — scissors, 2 — paper',
-      demandOption: true,
-      type: 'number'
-    })
-  },
-
-  handler: (argv) => {
-    playGame(argv.choice);
-    rl.close();
-  }
-});
-
-const argv = yargs.parse();
+const choices = { '0': 'Stone', '1': 'Scissors', '2': 'Paper' };
 
 // Main game function "engine"
 function playGame(userAnswer) {
@@ -49,15 +28,15 @@ function playGame(userAnswer) {
   console.log(`You entered: ${choices[userAnswer]}`);
 
   // computer random choice within the range
-  const pcChoice = Math.floor(Math.random() * Object.keys(choices).length);
+  const pcChoice = Math.floor(Math.random() * Object.keys(choices).length).toString();
   console.log(`PC chose: ${choices[pcChoice]}`);
 
   // main game logic
   if (pcChoice === userAnswer) {
     console.log(chalk.blueBright('Draw') + ' 🤝');
-  } else if (userAnswer === 0 && pcChoice === 1
-    || userAnswer === 1 && pcChoice === 2
-    || userAnswer === 2 && pcChoice === 0) {
+  } else if ((userAnswer === '0' && pcChoice === '1')
+    || (userAnswer === '1' && pcChoice === '2')
+    || (userAnswer === '2' && pcChoice === '0')) {
     console.log(chalk.whiteBright.bgGreen('You win!') + ' 👍');
   } else {
     console.log(chalk.whiteBright.bgMagenta('You loose!') + ' 👎');
@@ -65,14 +44,32 @@ function playGame(userAnswer) {
 }
 
 
+// Comman line 'play' command with only argument
+yargs.command({
+  command: 'play <choice>',
+  describe: 'Play game with command line argument',
+
+  builder: (yrgs) => {
+    yrgs.positional('choice', {
+      describe: '0 — stone, 1 — scissors, 2 — paper',
+      demandOption: true,
+      type: 'string'
+    });
+  },
+
+  handler: (argv) => {
+    playGame(argv.choice);
+    rl.close();
+  }
+});
+
+const argv = yargs.parse();
+
 // If no command line arguments were specified
 if (!argv.choice) {
   // writing question to STDOUT and assignin callback function on response
   rl.question('0 — stone, 1 — scissors, 2 — paper\nYour choice?\n', (answer) => {
-    // get integer value from string input
-    const userChoice = parseInt(answer);
-
-    playGame(userChoice);
+    playGame(answer);
     // close the terminal session
     rl.close();
   });
