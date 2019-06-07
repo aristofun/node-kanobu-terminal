@@ -33,16 +33,15 @@ function playGame(userAnswer) {
 
   // main game logic
   if (pcChoice === userAnswer) {
-    console.log(chalk.blueBright('Draw') + ' 🤝');
+    console.log(`${chalk.blueBright('Draw')} 🤝`);
   } else if ((userAnswer === '0' && pcChoice === '1')
     || (userAnswer === '1' && pcChoice === '2')
     || (userAnswer === '2' && pcChoice === '0')) {
-    console.log(chalk.whiteBright.bgGreen('You win!') + ' 👍');
+    console.log(`${chalk.whiteBright.bgGreen('You win!')} 👍`);
   } else {
-    console.log(chalk.whiteBright.bgMagenta('You loose!') + ' 👎');
+    console.log(`${chalk.whiteBright.bgMagenta('You loose!')} 👎`);
   }
 }
-
 
 // Comman line 'play' command with only argument
 yargs.command({
